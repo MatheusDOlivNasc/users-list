@@ -29,4 +29,18 @@ export class UserService {
       })
     );
   }
+  static async getById(userId: string): Promise<DefaultUserModel> {
+    const response = await fetch(this.baseUrl + "/users/" + userId, {
+      method: "GET",
+      cache: "no-cache",
+    });
+
+    if (response.ok !== true) {
+      const isJson = response.headers.get("Content-Type");
+      if (isJson) throw await response.json();
+      throw new Error("Not authorized");
+    }
+
+    return (await response.json()) as DefaultUserModel;
+  }
 }

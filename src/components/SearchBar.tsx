@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 const searchBarStyle = tv({
-  base: "border-2 border-black w-1/3 px-2 py-1",
+  base: "border-2 border-black w-full sm:w-1/3 px-2 py-1",
 });
 
 type Props = {

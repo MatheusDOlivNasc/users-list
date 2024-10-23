@@ -11,22 +11,24 @@ import { HiMiniArrowLongDown, HiMiniArrowLongUp } from "react-icons/hi2";
 import usePagination from "@/hooks/usePagination";
 import Paginator from "@/components/Paginator";
 import useSearch from "@/hooks/useSearch";
+import Link from "next/link";
 
 const homeStyle = tv({
   slots: {
     base: "w-full p-2",
-    highbar: "space-x-2",
+    highbar: "sm:space-x-2 space-y-1",
 
     searchText: "p-2 ",
 
+    screenTable: "w-aull overflow-auto",
     table: "table-auto w-full mt-2",
     tableCol: "min-w-32",
     tableTitle: "text-sm",
     tableTitleButton: "text-left flex flex-row space-x-2 items-center px-0.5",
-    tableTitleButtonText: "capitalize ",
+    tableTitleButtonText: "capitalize",
     tableTitleButtonIcon: " ",
     tableTitleButtonIconOff: "opacity-20 ",
-    tableData: " ",
+    tableData: "underline underline-offset-2",
 
     usersNotFound: "my-1 text-sm",
 
@@ -93,57 +95,61 @@ export default function Home() {
         <>Loading...</>
       ) : (
         <>
-          <table className={homeStyle().table()}>
-            <colgroup>
-              {titlesList?.map((_, index) => (
-                <col key={index} className={homeStyle().tableCol()} />
-              ))}
-            </colgroup>
-            <thead>
-              <tr>
-                {titlesList?.map((key, index) => (
-                  <th key={index} className={homeStyle().tableTitle()}>
-                    <Button
-                      baseStyle="all"
-                      color="white"
-                      className={homeStyle().tableTitleButton()}
-                      onClick={() => setOrderBy(key)}
-                    >
-                      <div className={homeStyle().tableTitleButtonText()}>
-                        {key}
-                      </div>
-                      {orderBy == key ? (
-                        orderDirection ? (
-                          <HiMiniArrowLongUp
-                            className={homeStyle().tableTitleButtonIcon()}
-                          />
-                        ) : (
-                          <HiMiniArrowLongDown
-                            className={homeStyle().tableTitleButtonIcon()}
-                          />
-                        )
-                      ) : (
-                        <LuArrowUpDown
-                          className={homeStyle().tableTitleButtonIconOff()}
-                        />
-                      )}
-                    </Button>
-                  </th>
+          <div className={homeStyle().screenTable()}>
+            <table className={homeStyle().table()}>
+              <colgroup>
+                {titlesList?.map((_, index) => (
+                  <col key={index} className={homeStyle().tableCol()} />
                 ))}
-              </tr>
-            </thead>
-            <tbody>
-              {users?.map((user) => (
-                <tr key={user.id}>
-                  {titlesList?.map((line, index) => (
-                    <td key={index} className={homeStyle().tableData()}>
-                      {user?.[line] || "--"}
-                    </td>
+              </colgroup>
+              <thead>
+                <tr>
+                  {titlesList?.map((key, index) => (
+                    <th key={index} className={homeStyle().tableTitle()}>
+                      <Button
+                        baseStyle="all"
+                        color="white"
+                        className={homeStyle().tableTitleButton()}
+                        onClick={() => setOrderBy(key)}
+                      >
+                        <div className={homeStyle().tableTitleButtonText()}>
+                          {key}
+                        </div>
+                        {orderBy == key ? (
+                          orderDirection ? (
+                            <HiMiniArrowLongUp
+                              className={homeStyle().tableTitleButtonIcon()}
+                            />
+                          ) : (
+                            <HiMiniArrowLongDown
+                              className={homeStyle().tableTitleButtonIcon()}
+                            />
+                          )
+                        ) : (
+                          <LuArrowUpDown
+                            className={homeStyle().tableTitleButtonIconOff()}
+                          />
+                        )}
+                      </Button>
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {users?.map((user) => (
+                  <tr key={user.id}>
+                    {titlesList?.map((line, index) => (
+                      <td key={index} className={homeStyle().tableData()}>
+                        <Link href={"/user/" + user?.id}>
+                          {user?.[line] || "--"}
+                        </Link>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {users?.length == 0 && (
             <div className={homeStyle().usersNotFound()}>
               {searchText.length > 0
