@@ -8,6 +8,8 @@ import { tv } from "tailwind-variants";
 import useSort from "@/hooks/useSort";
 import { LuArrowUpDown } from "react-icons/lu";
 import { HiMiniArrowLongDown, HiMiniArrowLongUp } from "react-icons/hi2";
+import usePagination from "@/hooks/usePagination";
+import Paginator from "@/components/Paginator";
 
 const homeStyle = tv({
   slots: {
@@ -42,12 +44,16 @@ export default function Home() {
     error,
   } = useUsersList();
 
+  const { sortedList, setOrderBy, orderBy, orderDirection } = useSort({ list });
+
   const {
-    sortedList: users,
-    setOrderBy,
-    orderBy,
-    orderDirection,
-  } = useSort({ list });
+    currentList: users,
+    totalPages,
+    currentPage,
+    setCurrentPage,
+    startIndex,
+    endIndex,
+  } = usePagination(sortedList, [orderBy, orderDirection]);
 
   const titlesList: (keyof UserModel)[] = [
     "name",
@@ -139,6 +145,14 @@ export default function Home() {
                 : "No users available"}
             </div>
           )}
+          <Paginator
+            totalPages={totalPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            itemsLength={list.length}
+          />
         </>
       )}
     </div>

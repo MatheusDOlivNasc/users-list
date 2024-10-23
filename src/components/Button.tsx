@@ -16,6 +16,7 @@ const buttonStyle = tv({
     },
     fontColor: {
       black: "text-black",
+      gray: "text-gray-300",
       white: "text-white",
       red: "text-red",
     }
