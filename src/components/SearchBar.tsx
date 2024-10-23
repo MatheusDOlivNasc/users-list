@@ -1,7 +1,7 @@
 "use client";
 
 import { tv } from "tailwind-variants";
-import { ChangeEvent, useEffect, useMemo, useRef } from "react";
+import { ChangeEvent, Suspense, useEffect, useMemo, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -13,7 +13,7 @@ type Props = {
   onSearchTextChange: (searchText: string) => void;
 };
 
-export default function SearchBar({ onSearchTextChange }: Props) {
+export function SearchBar({ onSearchTextChange }: Props) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -48,5 +48,13 @@ export default function SearchBar({ onSearchTextChange }: Props) {
       onChange={handleSetValue}
       onBlur={handleSubmit}
     />
+  );
+}
+
+export default function Page(props: Props) {
+  return (
+    <Suspense fallback={<>Loading...</>}>
+      <SearchBar {...props} />
+    </Suspense>
   );
 }
