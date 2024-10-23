@@ -1,11 +1,7 @@
 import { UserModel } from "@/models/user";
 import { useMemo, useState } from "react";
 
-interface Props {
-  list: UserModel[];
-}
-
-export default function useSort({ list }: Props) {
+export default function useSort(list: UserModel[]) {
   const [orderBy, setOrderBy] = useState<keyof UserModel | null>(null);
   const [orderDirection, setOrderDirection] = useState(false);
 

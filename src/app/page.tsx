@@ -10,6 +10,7 @@ import { LuArrowUpDown } from "react-icons/lu";
 import { HiMiniArrowLongDown, HiMiniArrowLongUp } from "react-icons/hi2";
 import usePagination from "@/hooks/usePagination";
 import Paginator from "@/components/Paginator";
+import useSearch from "@/hooks/useSearch";
 
 const homeStyle = tv({
   slots: {
@@ -35,16 +36,21 @@ const homeStyle = tv({
 
 export default function Home() {
   const {
-    list,
+    list: defaultList,
     isLoading,
     handleStartFetch,
-    searchText,
-    setSearchText,
+
     isFetchStated,
     error,
   } = useUsersList();
 
-  const { sortedList, setOrderBy, orderBy, orderDirection } = useSort({ list });
+  const {
+    filteredList: list,
+    searchText,
+    setSearchText,
+  } = useSearch(defaultList, "name");
+
+  const { sortedList, setOrderBy, orderBy, orderDirection } = useSort(list);
 
   const {
     currentList: users,

@@ -19,7 +19,7 @@ export default function Paginator({
   itemsLength,
 }: Props) {
   const pagesArray = useMemo(() => {
-    return Array(totalPages).fill(null);
+    return Array(totalPages).fill(null).map((_, index) => index);
   }, [totalPages]);
 
   function handlePreviousPage() {
