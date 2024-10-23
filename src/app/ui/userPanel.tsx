@@ -64,35 +64,7 @@ export default function UserPanel({ userId, backTo }: Props) {
               <dt className={userPanelStyle().dataLabel()}>Email:</dt>{" "}
               <dd className={userPanelStyle().dataText()}>{user?.email}</dd>
             </dl>
-            <address className={userPanelStyle().data()}>
-              <dl className={userPanelStyle().data()}>
-                <dt className={userPanelStyle().dataLabel()}>Street:</dt>{" "}
-                <dd className={userPanelStyle().dataText()}>
-                  {user?.address?.street}
-                </dd>
-              </dl>
-              <dl className={userPanelStyle().data()}>
-                <dt className={userPanelStyle().dataLabel()}>Suite:</dt>{" "}
-                <dd className={userPanelStyle().dataText()}>
-                  {user?.address?.suite}
-                </dd>
-              </dl>
-              <dl className={userPanelStyle().data()}>
-                <dt className={userPanelStyle().dataLabel()}>City:</dt>{" "}
-                <dd className={userPanelStyle().dataText()}>
-                  {user?.address?.city}
-                </dd>
-              </dl>
-              <dl className={userPanelStyle().data()}>
-                <dt className={userPanelStyle().dataLabel()}>Zipcode:</dt>{" "}
-                <dd className={userPanelStyle().dataText()}>
-                  {user?.address?.zipcode}
-                </dd>
-              </dl>
-              {/* <p>
-              {user?.address?.geo?.lat} - {user?.address?.geo?.lng}
-            </p> */}
-            </address>
+
             <dl className={userPanelStyle().data()}>
               <dt className={userPanelStyle().dataLabel()}>Phone:</dt>{" "}
               <dd className={userPanelStyle().dataText()}>{user?.phone}</dd>
@@ -102,6 +74,35 @@ export default function UserPanel({ userId, backTo }: Props) {
               <dd className={userPanelStyle().dataText()}>{user?.website}</dd>
             </dl>
           </div>
+          <address className={userPanelStyle().section()}>
+            <dl className={userPanelStyle().data()}>
+              <dt className={userPanelStyle().dataLabel()}>Street:</dt>{" "}
+              <dd className={userPanelStyle().dataText()}>
+                {user?.address?.street}
+              </dd>
+            </dl>
+            <dl className={userPanelStyle().data()}>
+              <dt className={userPanelStyle().dataLabel()}>Suite:</dt>{" "}
+              <dd className={userPanelStyle().dataText()}>
+                {user?.address?.suite}
+              </dd>
+            </dl>
+            <dl className={userPanelStyle().data()}>
+              <dt className={userPanelStyle().dataLabel()}>City:</dt>{" "}
+              <dd className={userPanelStyle().dataText()}>
+                {user?.address?.city}
+              </dd>
+            </dl>
+            <dl className={userPanelStyle().data()}>
+              <dt className={userPanelStyle().dataLabel()}>Zipcode:</dt>{" "}
+              <dd className={userPanelStyle().dataText()}>
+                {user?.address?.zipcode}
+              </dd>
+            </dl>
+            {/* <p>
+              {user?.address?.geo?.lat} - {user?.address?.geo?.lng}
+            </p> */}
+          </address>
           <div className={userPanelStyle().section()}>
             <dl className={userPanelStyle().data()}>
               <dt className={userPanelStyle().dataLabel()}>Company:</dt>{" "}
