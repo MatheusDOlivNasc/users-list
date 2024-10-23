@@ -30,7 +30,7 @@ export default function Paginator({
   }
 
   const disablePrevious = currentPage <= 0;
-  const disableNext = currentPage >= totalPages;
+  const disableNext = currentPage >= totalPages - 1;
 
   return (
     <div className="flex items-center justify-between border-t mt-2 border-gray-200 bg-white px-4 py-3 sm:px-6">
@@ -43,6 +43,9 @@ export default function Paginator({
         >
           Previous
         </button>
+        <div>
+          {currentPage + 1} / {totalPages}
+        </div>
         <button
           type="button"
           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
