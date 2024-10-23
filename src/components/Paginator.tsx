@@ -86,7 +86,7 @@ export default function Paginator({
         <div>
           <p className="text-sm text-gray-700 space-x-1">
             <span>Showing</span>
-            <span className="font-medium">{startIndex}</span>
+            <span className="font-medium">{startIndex + 1}</span>
             <span>to</span>
             <span className="font-medium">{endIndex}</span>
             <span>of</span>
