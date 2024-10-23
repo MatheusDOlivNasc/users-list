@@ -6,6 +6,8 @@ const buttonStyle = tv({
   variants: {
     baseStyle: {
       default: "px-3 py-1.5 rounded",
+      all: "w-full",
+      none: " ",
     },
     color: {
       black: "bg-black text-white hover:bg-gray-900",

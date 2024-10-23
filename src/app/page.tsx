@@ -5,6 +5,9 @@ import SearchBar from "@/components/SearchBar";
 import useUsersList from "@/hooks/useUsersList";
 import { UserModel } from "@/models/user";
 import { tv } from "tailwind-variants";
+import useSort from "@/hooks/useSort";
+import { LuArrowUpDown } from "react-icons/lu";
+import { HiMiniArrowLongDown, HiMiniArrowLongUp } from "react-icons/hi2";
 
 const homeStyle = tv({
   slots: {
@@ -15,7 +18,11 @@ const homeStyle = tv({
 
     table: "table-auto w-full mt-2",
     tableCol: "min-w-32",
-    tableTitle: "capitalize text-left text-sm",
+    tableTitle: "text-sm",
+    tableTitleButton: "text-left flex flex-row space-x-2 items-center px-0.5",
+    tableTitleButtonText: "capitalize ",
+    tableTitleButtonIcon: " ",
+    tableTitleButtonIconOff: "opacity-20 ",
     tableData: " ",
 
     usersNotFound: "my-1 text-sm",
@@ -26,7 +33,7 @@ const homeStyle = tv({
 
 export default function Home() {
   const {
-    list: users,
+    list,
     isLoading,
     handleStartFetch,
     searchText,
@@ -34,6 +41,13 @@ export default function Home() {
     isFetchStated,
     error,
   } = useUsersList();
+
+  const {
+    sortedList: users,
+    setOrderBy,
+    orderBy,
+    orderDirection,
+  } = useSort({ list });
 
   const titlesList: (keyof UserModel)[] = [
     "name",
@@ -69,15 +83,39 @@ export default function Home() {
         <>
           <table className={homeStyle().table()}>
             <colgroup>
-              {titlesList?.map((line, index) => (
+              {titlesList?.map((_, index) => (
                 <col key={index} className={homeStyle().tableCol()} />
               ))}
             </colgroup>
             <thead>
               <tr>
-                {titlesList?.map((line, index) => (
+                {titlesList?.map((key, index) => (
                   <th key={index} className={homeStyle().tableTitle()}>
-                    {line}
+                    <Button
+                      baseStyle="all"
+                      color="white"
+                      className={homeStyle().tableTitleButton()}
+                      onClick={() => setOrderBy(key)}
+                    >
+                      <div className={homeStyle().tableTitleButtonText()}>
+                        {key}
+                      </div>
+                      {orderBy == key ? (
+                        orderDirection ? (
+                          <HiMiniArrowLongUp
+                            className={homeStyle().tableTitleButtonIcon()}
+                          />
+                        ) : (
+                          <HiMiniArrowLongDown
+                            className={homeStyle().tableTitleButtonIcon()}
+                          />
+                        )
+                      ) : (
+                        <LuArrowUpDown
+                          className={homeStyle().tableTitleButtonIconOff()}
+                        />
+                      )}
+                    </Button>
                   </th>
                 ))}
               </tr>
@@ -94,7 +132,7 @@ export default function Home() {
               ))}
             </tbody>
           </table>
-          {users.length == 0 && (
+          {users?.length == 0 && (
             <div className={homeStyle().usersNotFound()}>
               {searchText.length > 0
                 ? "No users match your search"
