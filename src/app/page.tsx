@@ -16,19 +16,25 @@ import Link from "next/link";
 const homeStyle = tv({
   slots: {
     base: "w-full p-2",
-    highbar: "sm:space-x-2 space-y-1",
+    highbar: "sm:space-x-3 space-y-1",
 
     searchText: "p-2 ",
 
-    screenTable: "w-aull overflow-auto",
-    table: "table-auto w-full mt-2",
+    screenTable: "w-full overflow-auto my-4",
+    table: [
+      "table-auto min-w-max w-full mt-2",
+      "relative"
+    ],
     tableCol: "min-w-32",
-    tableTitle: "text-sm",
+    tableLine: "odd:bg-gray-100",
     tableTitleButton: "text-left flex flex-row space-x-2 items-center px-0.5",
     tableTitleButtonText: "capitalize",
     tableTitleButtonIcon: " ",
     tableTitleButtonIconOff: "opacity-20 ",
-    tableData: "underline underline-offset-2",
+    
+    tableLineTitle: "bg-white",
+    tableTitle: "text-sm px-2 pb-2", 
+    tableData: "underline underline-offset-2 break-normal py-2 px-2 border border-gray-300",
 
     usersNotFound: "my-1 text-sm",
 
@@ -61,6 +67,9 @@ export default function Home() {
     setCurrentPage,
     startIndex,
     endIndex,
+    displayItemsList,
+    displayItems,
+    setDisplayItems,
   } = usePagination(sortedList, [orderBy, orderDirection]);
 
   const titlesList: (keyof UserModel)[] = [
@@ -103,7 +112,7 @@ export default function Home() {
                 ))}
               </colgroup>
               <thead>
-                <tr>
+                <tr className={homeStyle().tableLineTitle()}>
                   {titlesList?.map((key, index) => (
                     <th key={index} className={homeStyle().tableTitle()}>
                       <Button
@@ -137,7 +146,7 @@ export default function Home() {
               </thead>
               <tbody>
                 {users?.map((user) => (
-                  <tr key={user.id}>
+                  <tr key={user.id} className={homeStyle().tableLine()}>
                     {titlesList?.map((line, index) => (
                       <td key={index} className={homeStyle().tableData()}>
                         <Link href={"/user/" + user?.id}>
@@ -164,6 +173,9 @@ export default function Home() {
             startIndex={startIndex}
             endIndex={endIndex}
             itemsLength={list.length}
+            displayItemsList={displayItemsList}
+            displayItems={displayItems}
+            setDisplayItems={setDisplayItems}
           />
         </>
       )}

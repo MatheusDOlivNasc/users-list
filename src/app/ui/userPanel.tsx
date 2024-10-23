@@ -1,15 +1,21 @@
-import { UserService } from "@/Services/user";
-import Link from "next/link";
+"use client";
+
+import Button from "@/components/Button";
+import useUser from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
+import React from "react";
 import { tv } from "tailwind-variants";
 
-interface Props {
+type Props = {
   userId: string;
-}
+  backTo?: string;
+};
 
 const userPanelStyle = tv({
   slots: {
     base: [
       "bg-white shadow-lg p-1 sm:p-3 rounded w-[95%] max-w-[400px] mt-3",
+      "overflow-auto max-h-[80dvh]",
       "space-y-2",
     ],
     name: "font-bold text-xl px-1",
@@ -17,26 +23,36 @@ const userPanelStyle = tv({
     dataLabel: "inline text-xs break-words",
     dataText: "inline font-medium break-words",
 
-    link: "underline ml-1 sm:ml-0",
-
-    titleSection: "flex justify-between flex-start sm:items-end px-1 flex-col sm:flex-row",
+    titleSection:
+      "flex justify-between flex-start text-center sm:items-end px-1 flex-col sm:flex-row mt-1 sm:mt-0",
     section: "bg-gray-100 rounded py-1 px-3 ",
   },
 });
 
-export default async function UserPanel({ userId }: Props) {
-  const user = await UserService.getById(userId);
+export default function UserPanel({ userId, backTo }: Props) {
+  const { user, isLoading, error } = useUser(userId);
+  const router = useRouter();
 
   return (
     <div className={userPanelStyle().base()}>
       <div className={userPanelStyle().titleSection()}>
         <h1 className={userPanelStyle().name()}>
-          {user?.name || "User not found"}
+          {isLoading ? "Loading..." : user?.name || "User not found"}
         </h1>
-        <Link href="/" className={userPanelStyle().link()}>
+        <Button
+          baseStyle="none"
+          color="white"
+          className="underline underline-offset-2 my-1"
+          onClick={() => (backTo ? router.push(backTo) : router.back())}
+        >
           Home
-        </Link>
+        </Button>
       </div>
+      {error && (
+        <dl className={userPanelStyle().data()}>
+          <dd className={userPanelStyle().dataText()}>{error}</dd>
+        </dl>
+      )}
       {user && (
         <>
           <div className={userPanelStyle().section()}>

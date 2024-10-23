@@ -9,7 +9,7 @@ export default async function UserModal({
 
   return (
     <div className="flex justify-center">
-      <UserPanel userId={userId} />
+      <UserPanel userId={userId} backTo="/" />
     </div>
   );
 }

@@ -8,5 +8,9 @@ export default async function UserModal({
 }) {
   const userId = (await params)?.userId;
 
-  return <Modal><UserPanel userId={userId} /></Modal>;
+  return (
+    <Modal>
+      <UserPanel userId={userId} />
+    </Modal>
+  );
 }

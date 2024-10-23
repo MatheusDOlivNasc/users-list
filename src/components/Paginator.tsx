@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import Select from "./Select";
 
 interface Props {
   currentPage: number;
@@ -8,6 +9,10 @@ interface Props {
   startIndex: number;
   endIndex: number;
   itemsLength: number;
+
+  displayItems: number;
+  setDisplayItems(displayItems: number): void;
+  displayItemsList: number[];
 }
 
 export default function Paginator({
@@ -17,9 +22,14 @@ export default function Paginator({
   startIndex,
   endIndex,
   itemsLength,
+  displayItems,
+  setDisplayItems,
+  displayItemsList,
 }: Props) {
   const pagesArray = useMemo(() => {
-    return Array(totalPages).fill(null).map((_, index) => index);
+    return Array(totalPages)
+      .fill(null)
+      .map((_, index) => index);
   }, [totalPages]);
 
   function handlePreviousPage() {
@@ -32,28 +42,45 @@ export default function Paginator({
   const disablePrevious = currentPage <= 0;
   const disableNext = currentPage >= totalPages - 1;
 
+  const displayItemsString = useMemo(() => {
+    return displayItemsList?.map(String);
+  }, [displayItemsList]);
+
   return (
     <div className="flex items-center justify-between border-t mt-2 border-gray-200 bg-white px-4 py-3 sm:px-6">
-      <div className="flex flex-1 justify-between sm:hidden">
-        <button
-          type="button"
-          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          onClick={handlePreviousPage}
-          disabled={disablePrevious}
-        >
-          Previous
-        </button>
-        <div>
-          {currentPage + 1} / {totalPages}
+      <div className="w-full space-y-3 sm:hidden">
+        <div className="flex flex-1 justify-between">
+          <button
+            type="button"
+            className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            onClick={handlePreviousPage}
+            disabled={disablePrevious}
+          >
+            Previous
+          </button>
+          <button
+            type="button"
+            className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            onClick={handleNextPage}
+            disabled={disableNext}
+          >
+            Next
+          </button>
         </div>
-        <button
-          type="button"
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          onClick={handleNextPage}
-          disabled={disableNext}
-        >
-          Next
-        </button>
+        <div className="flex flex-1 justify-between">
+          <div>
+            {currentPage + 1} / {totalPages}
+          </div>
+          <div>
+            <Select
+              title="Display items"
+              list={displayItemsString}
+              onChange={(e) => setDisplayItems(parseInt(e))}
+              value={String(displayItems)}
+              width="w-24"
+            />
+          </div>
+        </div>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
@@ -66,6 +93,15 @@ export default function Paginator({
             <span className="font-medium">{itemsLength}</span>
             <span>results</span>
           </p>
+        </div>
+        <div>
+          <Select
+            title="Display items"
+            list={displayItemsString}
+            onChange={(e) => setDisplayItems(parseInt(e))}
+            value={String(displayItems)}
+            width="w-20"
+          />
         </div>
         <div>
           <nav
